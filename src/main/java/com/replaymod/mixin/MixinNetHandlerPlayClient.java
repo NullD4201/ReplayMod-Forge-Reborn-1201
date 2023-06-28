@@ -22,7 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 
 @Mixin(ClientPacketListener.class)
@@ -40,19 +40,19 @@ public abstract class MixinNetHandlerPlayClient {
 
     /**
      * Record the own player entity joining the world.
-     * We cannot use the {@link net.minecraftforge.event.entity.EntityJoinWorldEvent} because the entity id
-     * of the player is set afterwards and the tablist entry might not yet be sent.
+     * We cannot use the {@link net.minecraftforge.event.entity.EntityJoinLevelEvent} because the entity id
+     * of the player is set afterward and the tablist entry might not yet be sent.
      *
      * @param packet The packet
      * @param ci     Callback info
      */
     @Inject(method = "handlePlayerInfo", at = @At("HEAD"))
-    public void recordOwnJoin(ClientboundPlayerInfoPacket packet, CallbackInfo ci) {
+    public void recordOwnJoin(ClientboundPlayerInfoUpdatePacket packet, CallbackInfo ci) {
         if (!mcStatic.isSameThread()) return;
         if (mcStatic.player == null) return;
 
         RecordingEventHandler handler = getRecordingEventHandler();
-        if (handler != null && packet.getAction() == ClientboundPlayerInfoPacket.Action.ADD_PLAYER) {
+        if (handler != null && packet.actions().contains(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER)) {
             ByteBuf byteBuf = Unpooled.buffer();
             try {
                 packet.write(new FriendlyByteBuf(byteBuf));
@@ -82,7 +82,7 @@ public abstract class MixinNetHandlerPlayClient {
 
     /**
      * Record the own player entity respawning.
-     * We cannot use the {@link net.minecraftforge.event.entity.EntityJoinWorldEvent} because that would also include
+     * We cannot use the {@link net.minecraftforge.event.entity.EntityJoinLevelEvent} because that would also include
      * the first spawn which is already handled by the above method.
      *
      * @param packet The packet

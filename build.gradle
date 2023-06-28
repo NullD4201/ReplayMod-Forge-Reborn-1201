@@ -1,5 +1,5 @@
 buildscript {
-    def (major, minor, patch) = '1.19.2-forge'.tokenize('-')[0].tokenize('.')
+    def (major, minor, patch) = '1.20.1-forge'.tokenize('-')[0].tokenize('.')
     def mcVersion = "${major}${minor.padLeft(2, '0')}${(patch ?: '').padLeft(2, '0')}" as int
     def fabric = false
 
@@ -117,7 +117,7 @@ minecraft {
         }
     }
 
-    mappings channel: 'official', version: '1.19.2'
+    mappings channel: 'official', version: '1.20.1'
 }
 
 repositories {
@@ -155,7 +155,7 @@ dependencies {
         exclude group: 'com.google.code.gson', module: 'gson' // provided by MC
     }
 
-    minecraft 'net.minecraftforge:forge:1.19.2-43.2.8'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.0.43'
 
     annotationProcessor "org.spongepowered:mixin:$mixinVersion"
     compileOnly "org.spongepowered:mixin:$mixinVersion"
