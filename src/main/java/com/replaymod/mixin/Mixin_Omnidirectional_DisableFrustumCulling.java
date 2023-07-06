@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.culling.Frustum;
 
 @Mixin(Frustum.class)
 public abstract class Mixin_Omnidirectional_DisableFrustumCulling {
-    @Inject(method = "cubeInFrustum(FFFFFF)Z", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "cubeInFrustum", at = @At("HEAD"), cancellable = true)
     public void intersects(CallbackInfoReturnable<Boolean> ci) {
         EntityRendererHandler handler = ((EntityRendererHandler.IEntityRenderer) MCVer.getMinecraft().gameRenderer).replayModRender_getHandler();
         if (handler != null && handler.omnidirectional) {

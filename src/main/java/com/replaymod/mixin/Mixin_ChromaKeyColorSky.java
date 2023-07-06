@@ -23,7 +23,7 @@ public abstract class Mixin_ChromaKeyColorSky {
     @Final
     private Minecraft minecraft;
 
-    @Inject(method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/math/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderSky", at = @At("HEAD"), cancellable = true)
     private void chromaKeyingSky(CallbackInfo ci) {
         EntityRendererHandler handler = ((EntityRendererHandler.IEntityRenderer) this.minecraft.gameRenderer).replayModRender_getHandler();
         if (handler != null) {

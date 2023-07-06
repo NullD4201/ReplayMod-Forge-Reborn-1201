@@ -76,7 +76,6 @@ import net.minecraft.network.protocol.game.ClientboundOpenBookPacket;
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
 import net.minecraft.network.protocol.game.ClientboundOpenSignEditorPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerChatHeaderPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerChatPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
@@ -372,7 +371,7 @@ public class FullReplaySender extends ChannelDuplexHandler implements ReplaySend
                                     world.pollLightUpdates(); 
                             	LevelLightEngine provider = world.getChunkSource().getLightEngine();
                                 while (provider.hasLightWork()) {
-                                    provider.runUpdates(Integer.MAX_VALUE, true, true);
+                                    provider.runLightUpdates();
                                 }
                             }
                         };
@@ -495,7 +494,7 @@ public class FullReplaySender extends ChannelDuplexHandler implements ReplaySend
             allowMovement = true;
             actualID = entId;
             entId = -1789435; // Camera entity id should be negative which is an invalid id and can't be used by servers
-            p = new ClientboundLoginPacket(entId, packet.hardcore(), GameType.SPECTATOR, GameType.SPECTATOR, packet.levels(), packet.registryHolder(), packet.dimensionType(), packet.dimension(), packet.seed(), 0, packet.chunkRadius(), packet.simulationDistance(), packet.reducedDebugInfo(), packet.showDeathScreen(), packet.isDebug(), packet.isFlat(), Optional.empty());
+            p = new ClientboundLoginPacket(entId, packet.hardcore(), GameType.SPECTATOR, GameType.SPECTATOR, packet.levels(), packet.registryHolder(), packet.dimensionType(), packet.dimension(), packet.seed(), 0, packet.chunkRadius(), packet.simulationDistance(), packet.reducedDebugInfo(), packet.showDeathScreen(), packet.isDebug(), packet.isFlat(), Optional.empty(), 0);
         }
 
         if (p instanceof ClientboundRespawnPacket) {
@@ -508,7 +507,9 @@ public class FullReplaySender extends ChannelDuplexHandler implements ReplaySend
                     GameType.SPECTATOR,
                     respawn.isDebug(),
                     respawn.isFlat(),
-                    respawn.shouldKeepAllPlayerData(), respawn.getLastDeathLocation()
+                    (byte) 3,
+                    respawn.getLastDeathLocation(),
+                    respawn.getPortalCooldown()
             );
 
             allowMovement = true;
@@ -578,7 +579,7 @@ public class FullReplaySender extends ChannelDuplexHandler implements ReplaySend
                 return null;
             }
         }
-        if (p instanceof ClientboundSystemChatPacket || p instanceof ClientboundPlayerChatPacket || p instanceof ClientboundPlayerChatHeaderPacket) {
+        if (p instanceof ClientboundSystemChatPacket || p instanceof ClientboundPlayerChatPacket) {
             if (!ReplayModReplay.instance.getCore().getSettingsRegistry().get(Setting.SHOW_CHAT)) {
                 return null;
             }

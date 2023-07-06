@@ -16,7 +16,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
-import com.mojang.math.Quaternion;
+import org.joml.Quaternionf;
 import com.replaymod.core.MinecraftMethodAccessor;
 import com.replaymod.gui.MinecraftGuiRenderer;
 import com.replaymod.mixin.MainWindowAccessor;
@@ -32,7 +32,6 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
@@ -108,13 +107,13 @@ public class MCVer {
           .endVertex();
     }
       
-    public static Quaternion quaternion(float angle, com.mojang.math.Vector3f axis) {
-        return new Quaternion(axis, angle, true);
+    public static Quaternionf quaternion(float angle, org.joml.Vector3f axis) {
+        return new Quaternionf(axis.x, axis.y, axis.z, angle);
     }
 
     public static CompletableFuture<?>
     setServerResourcePack(File file) {
-        return getMinecraft().getClientPackSource().setServerPack(
+        return getMinecraft().getDownloadedPackSource().setServerPack(
                 file
                 , PackSource.SERVER
         );
@@ -146,7 +145,7 @@ public class MCVer {
         //GuiScreenAccessor acc = (GuiScreenAccessor) screen;
         //acc.invokeAddButton(button);
     	
-    	List<Widget> renderables = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, "f_169369_");
+    	List<AbstractWidget> renderables = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, "f_169369_");
     	List<GuiEventListener> children = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, "f_96540_");
     	List<NarratableEntry> narratables = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, "f_169368_");
     	renderables.add(button);
@@ -161,7 +160,8 @@ public class MCVer {
                 return Optional.of(b);
             }
             // Fuzzy match (copy does not include children)
-            if (b.getMessage() != null && b.getMessage().plainCopy().equals(message)) {
+            b.getMessage();
+            if (b.getMessage().plainCopy().equals(message)) {
                 return Optional.of(b);
             }
         }

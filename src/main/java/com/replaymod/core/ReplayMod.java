@@ -39,7 +39,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.FolderPackResources;
+import net.minecraft.server.packs.PathPackResources;
 
 public class ReplayMod implements Module, Scheduler {
 
@@ -163,15 +163,15 @@ public class ReplayMod implements Module, Scheduler {
         return replayFolder.resolve(relative);
     }
 
-    public static final FolderPackResources jGuiResourcePack = createJGuiResourcePack();
+    public static final PathPackResources jGuiResourcePack = createJGuiResourcePack();
     public static final String JGUI_RESOURCE_PACK_NAME = "replaymod_jgui";
 
-    private static FolderPackResources createJGuiResourcePack() {
+    private static PathPackResources createJGuiResourcePack() {
         File folder = new File("../jGui/src/main/resources");
         if (!folder.exists()) {
             return null;
         }
-        return new FolderPackResources(folder) {
+        return new PathPackResources(folder) {
             @Override
             public String getName() {
                 return JGUI_RESOURCE_PACK_NAME;

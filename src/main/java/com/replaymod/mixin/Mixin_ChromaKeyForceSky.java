@@ -22,7 +22,7 @@ public abstract class Mixin_ChromaKeyForceSky {
     @Final
     private Minecraft minecraft;
 
-    @ModifyConstant(method = "renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lcom/mojang/math/Matrix4f;)V", constant = @Constant(intValue = 4))
+    @ModifyConstant(method = "renderLevel", constant = @Constant(intValue = 4))
     private int forceSkyWhenChromaKeying(int value) {
         EntityRendererHandler handler = ((EntityRendererHandler.IEntityRenderer) this.minecraft.gameRenderer).replayModRender_getHandler();
         if (handler != null) {

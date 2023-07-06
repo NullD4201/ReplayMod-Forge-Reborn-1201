@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 import com.replaymod.core.versions.MCVer;
 import com.replaymod.render.hooks.EntityRendererHandler;
 

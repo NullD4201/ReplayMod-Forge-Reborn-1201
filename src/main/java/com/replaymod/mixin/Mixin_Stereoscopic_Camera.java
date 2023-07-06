@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
+import org.joml.Matrix4f;
 import com.replaymod.render.capturer.StereoscopicOpenGlFrameCapturer;
 import com.replaymod.render.hooks.EntityRendererHandler;
 

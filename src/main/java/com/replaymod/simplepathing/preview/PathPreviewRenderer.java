@@ -232,9 +232,9 @@ public class PathPreviewRenderer extends EventRegistrations {
 		Vector3f t = Vector3f.sub(pos, view, null);
 		RenderSystem.getModelViewStack().translate(t.x, t.y, t.z);
 		RenderSystem.getModelViewStack().mulPose(MCVer.quaternion(-(mc.getEntityRenderDispatcher()).camera.getYRot(),
-				new com.mojang.math.Vector3f(0.0F, 1.0F, 0.0F)));
+				new org.joml.Vector3f(0.0F, 1.0F, 0.0F)));
 		RenderSystem.getModelViewStack().mulPose(MCVer.quaternion((mc.getEntityRenderDispatcher()).camera.getXRot(),
-				new com.mojang.math.Vector3f(1.0F, 0.0F, 0.0F)));
+				new org.joml.Vector3f(1.0F, 0.0F, 0.0F)));
 		RenderSystem.applyModelViewMatrix();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		tessellator.end();
@@ -247,11 +247,11 @@ public class PathPreviewRenderer extends EventRegistrations {
 		Vector3f t = Vector3f.sub(pos, view, null);
 		RenderSystem.getModelViewStack().translate(t.x, t.y, t.z);
 		RenderSystem.getModelViewStack()
-				.mulPose(MCVer.quaternion(-rot.x, new com.mojang.math.Vector3f(0.0F, 1.0F, 0.0F)));
+				.mulPose(MCVer.quaternion(-rot.x, new org.joml.Vector3f(0.0F, 1.0F, 0.0F)));
 		RenderSystem.getModelViewStack()
-				.mulPose(MCVer.quaternion(rot.y, new com.mojang.math.Vector3f(1.0F, 0.0F, 0.0F)));
+				.mulPose(MCVer.quaternion(rot.y, new org.joml.Vector3f(1.0F, 0.0F, 0.0F)));
 		RenderSystem.getModelViewStack()
-				.mulPose(MCVer.quaternion(rot.z, new com.mojang.math.Vector3f(0.0F, 0.0F, 1.0F)));
+				.mulPose(MCVer.quaternion(rot.z, new org.joml.Vector3f(0.0F, 0.0F, 1.0F)));
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder buffer = tessellator.getBuilder();
 		buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);

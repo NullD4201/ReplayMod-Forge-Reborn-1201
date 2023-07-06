@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 import com.replaymod.render.capturer.CubicOpenGlFrameCapturer;
 import com.replaymod.render.hooks.EntityRendererHandler;
 
@@ -25,38 +25,37 @@ public abstract class Mixin_Omnidirectional_Rotation {
             PoseStack matrixStack,
             CallbackInfo ci
     ) {
-        if (getHandler() != null && getHandler().data instanceof CubicOpenGlFrameCapturer.Data) {
-            CubicOpenGlFrameCapturer.Data data = (CubicOpenGlFrameCapturer.Data) getHandler().data;
+        if (getHandler() != null && getHandler().data instanceof CubicOpenGlFrameCapturer.Data data) {
             float angle = 0;
             float x = 0;
             float y = 0;
             switch (data) {
-                case FRONT:
+                case FRONT -> {
                     angle = 0;
                     y = 1;
-                    break;
-                case RIGHT:
+                }
+                case RIGHT -> {
                     angle = 90;
                     y = 1;
-                    break;
-                case BACK:
+                }
+                case BACK -> {
                     angle = 180;
                     y = 1;
-                    break;
-                case LEFT:
+                }
+                case LEFT -> {
                     angle = -90;
                     y = 1;
-                    break;
-                case TOP:
+                }
+                case TOP -> {
                     angle = -90;
                     x = 1;
-                    break;
-                case BOTTOM:
+                }
+                case BOTTOM -> {
                     angle = 90;
                     x = 1;
-                    break;
+                }
             }
-            matrixStack.mulPose(new Vector3f(x, y, 0).rotationDegrees(angle));
+            matrixStack.mulPose(new Vector3f().rotateAxis(angle, x, y, 0));
         }
     }
 }

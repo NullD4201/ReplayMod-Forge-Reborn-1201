@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
+import org.joml.Quaternionf;
 import com.replaymod.core.versions.MCVer;
 import com.replaymod.render.hooks.EntityRendererHandler;
 
@@ -23,8 +23,8 @@ public abstract class MixinParticleManager
         if (handler == null || !handler.omnidirectional) {
             buildGeometry(particle, vertexConsumer, camera, partialTicks);
         } else {
-            Quaternion rotation = camera.rotation();
-            Quaternion org = rotation.copy();
+            Quaternionf rotation = camera.rotation();
+            Quaternionf org = rotation;
             try {
             	Vec3 from = new Vec3(0, 0, 1);
                 Vec3 to = MCVer.getPosition(particle, partialTicks).subtract(camera.getPosition()).normalize();

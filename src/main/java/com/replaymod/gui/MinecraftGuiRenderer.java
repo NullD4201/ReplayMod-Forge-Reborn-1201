@@ -142,12 +142,12 @@ public class MinecraftGuiRenderer implements GuiRenderer {
 
     @Override
     public void drawRect(int x, int y, int width, int height, ReadableColor tl, ReadableColor tr, ReadableColor bl, ReadableColor br) {
-        RenderSystem.disableTexture();
+        RenderSystem.disableBlend();
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(770, 771, 1, 0);
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         MCVer.drawRect(x, y, width, height, tl, tr, bl, br);
-        RenderSystem.enableTexture();
+        RenderSystem.enableBlend();
     }
 
     @Override
@@ -225,14 +225,14 @@ public class MinecraftGuiRenderer implements GuiRenderer {
         if (left >= right || top >= bottom) return;
 
         color(0, 0, 1);
-        RenderSystem.disableTexture();
+        RenderSystem.disableBlend();
         RenderSystem.enableColorLogicOp();
         RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
 
         com.replaymod.gui.versions.MCVer.drawRect(right, bottom, left, top);
 
         RenderSystem.disableColorLogicOp();
-        RenderSystem.enableTexture();
+        RenderSystem.enableBlend();
         color(1, 1, 1);
     }
 }

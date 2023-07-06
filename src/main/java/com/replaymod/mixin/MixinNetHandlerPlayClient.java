@@ -46,7 +46,7 @@ public abstract class MixinNetHandlerPlayClient {
      * @param packet The packet
      * @param ci     Callback info
      */
-    @Inject(method = "handlePlayerInfo", at = @At("HEAD"))
+    @Inject(method = "handlePlayerInfoUpdate", at = @At("HEAD"))
     public void recordOwnJoin(ClientboundPlayerInfoUpdatePacket packet, CallbackInfo ci) {
         if (!mcStatic.isSameThread()) return;
         if (mcStatic.player == null) return;
